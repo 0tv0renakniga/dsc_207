@@ -1,20 +1,20 @@
 1.In the words of former U.S. Chief Data Scientist D.J. Patil, a data product is "... a product that ___________ through the use of data
-
+>> facilitates an end goal
 
 2.Which of the following are course objectives? (select all that apply)
 Group of answer choices
 
-Visualize data using Python and communicate results
+>>Visualize data using Python and communicate results
 
-Manipulate and analyze datasets using Python and Python libraries
+>>Manipulate and analyze datasets using Python and Python libraries
 
-Analyze data and provide explanations in Jupyter notebooks
+>>Analyze data and provide explanations in Jupyter notebooks
 
-Describe the key steps in the process of conducting data science
+>>Describe the key steps in the process of conducting data science
 
 Learn advanced machine learning techniques
 
-Discuss the ethical implications of working with data
+>>Discuss the ethical implications of working with data
 
 
 3.Veracity in 5V’s of big data refers to
@@ -24,7 +24,7 @@ Size of the data
 
 Influx rate of data
 
-Authenticity/Correctness of data
+>>Authenticity/Correctness of data
 
 Diversity of the data
 
@@ -34,7 +34,7 @@ Actionable insights from data
 4. Team collaboration is an important aspect of data science
 Group of answer choices
 
-True
+>>True
 
 False
 
@@ -42,13 +42,13 @@ False
 5. Why is Python so popular in Data Science? (select all that apply)
 Group of answer choices
 
-Python provides powerful libraries for data science
+>>Python provides powerful libraries for data science
 
-Python is open source
+>>Python is open source
 
-Python holds 65% share of primary programming language for data science
+>>Python holds 65% share of primary programming language for data science
 
-Python is used as “glue language”
+>>Python is used as “glue language”
 
 Python is the only language that supports data science
 
@@ -58,13 +58,13 @@ Python is compiled language
 6.As per the video, what are some of the reasons for Netflix to adopt Jupyter Notebooks? (select all that apply)
 Group of answer choices
 
-Sharing of prepared queries and visualizations
+>>Sharing of prepared queries and visualizations
 
-Standardized data access between multiple teams
+>>Standardized data access between multiple teams
 
 IDE integrations
 
-Parameterized notebooks allowed running experiments with different coefficients
+>>Parameterized notebooks allowed running experiments with different coefficients
 
 Helped in reducing security concerns
 
@@ -78,7 +78,7 @@ Analyze, Acquire, Process, Act, Report
 
 Acquire, Analyze, Process, Act, Report
 
-Acquire, Process, Analyze, Report, Act
+>Acquire, Process, Analyze, Report, Act
 
 Analyze, Acquire, Act, Process, Report
 
@@ -86,7 +86,7 @@ Analyze, Acquire, Act, Process, Report
 8.Data science phases can be an iterative process
 Group of answer choices
 
-True
+>True
 
 False
 
