@@ -78,7 +78,7 @@ Analyze, Acquire, Process, Act, Report
 
 Acquire, Analyze, Process, Act, Report
 
->Acquire, Process, Analyze, Report, Act
+>>Acquire, Process, Analyze, Report, Act
 
 Analyze, Acquire, Act, Process, Report
 
@@ -86,7 +86,7 @@ Analyze, Acquire, Act, Process, Report
 8.Data science phases can be an iterative process
 Group of answer choices
 
->True
+>>True
 
 False
 
