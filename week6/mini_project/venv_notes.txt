@@ -1,0 +1,14 @@
+CREATE NEW VENV
+python3 -m venv /{PATH_TO_VENVS}/{venv_name}
+
+ACTIVATE NEW VENV
+source {venv_name}/bin/activate
+
+DEACTIVEATE VENV
+deactivate
+
+MAKE REQUIREMENTS.TXT FOR PIP
+pip freeze > requirements.txt
+
+INSTALLING ALL PYTHON LIBRARIES IN REQUIREMENTS.TXT
+pip install -r /{PATH_TO}/requirements.txt
