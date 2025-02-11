@@ -1,4 +1,7 @@
+import numpy as np
 import pandas as pd
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -33,17 +36,28 @@ def clean_df_values(df):
     -------
     df: pd.Dataframe
     '''
-    pass
+    # find observations with 0
+    rows_with_zero = df[(df == 0).any(axis=1)]
+    # list of countries that will be removed from df
+    # 'Somalia' 'Bosnia and Herzegovina' 'Greece' 
+    # 'Sierra Leone' 'Sudan' 'Togo'
+    country_with_zero = rows_with_zero.country.unique()
+
+    # new df with observations that contain a 0 are removed
+    df_removed_zeros = df[~df.country.isin(country_with_zero)]
+
+    return(df_removed_zeros)
 
 def create_df_by_region(df):
     '''
     create new dataframes with variable names corresponding to each unique
     region. the following will be created:
 
-    western_europe_df, north_america_df, australia_and_new_zealand_df,
-    middle_east_and_northern_africa_df, latin_america_and_caribbean_df,
-    southeastern_asia_df, central_and_eastern_europe_df,
-    eastern_asia_df, sub_saharan_africa_df, southern_asia_df
+    df_western_europe, df_north_america, df_australia_and_new_zealand, 
+    df_middle_east_and_northern_africa, df_latin_america_and_caribbean, 
+    df_southeastern_asia, df_central_and_eastern_europe, df_eastern_asia, 
+    df_sub_saharan_africa, df_southern_asia
+
 
     Input
     -----
@@ -56,15 +70,15 @@ def create_df_by_region(df):
     # create a list of unique regions
     regions = df.region.unique()
 
+    # format region names
     new_region_df_names = [i.lower() for i in regions]
     new_region_df_names = [i.replace(' ', '_') for i in new_region_df_names]
     new_region_df_names = [i.replace('-', '_') for i in new_region_df_names]
-    print(new_region_df_names)
 
     for df_name,region in zip(new_region_df_names,regions):
-        globals()[f'{df_name}_df'] = df[df['region'].isin([region])]
+        globals()[f'df_{df_name}'] = df[df['region'].isin([region])]
 
-    print(globals().keys())
+
 def main():
     # read 2016.csv supplied for mini project
     df = pd.read_csv('2016.csv')
@@ -73,9 +87,29 @@ def main():
     df = rename_columns(df)
     
     create_df_by_region(df)
-    print(north_america_df.describe())
+    df_regions = [df_western_europe, df_north_america, df_australia_and_new_zealand, df_middle_east_and_northern_africa, df_latin_america_and_caribbean, df_southeastern_asia, df_central_and_eastern_europe, df_eastern_asia, df_sub_saharan_africa, df_southern_asia]
+
+    print(df.dtypes)
+    print(df.shape)
+    # find observations with 0
+    rows_with_zero = df[(df == 0).any(axis=1)]
+    # list of countries that will be removed from df
+    country_with_zero = rows_with_zero.country.unique()
+    print(country_with_zero)
+    removed_zeros = df[~df.country.isin(country_with_zero)]
+    print(removed_zeros.shape)
+    '''
+    sns.heatmap(df,annot=True,cmap="YlGnBu")
+    plt.xlabel("columns")
+    plt.ylabel("index")
+    plt.title()
+    plt.show()
+    '''
+    
 
 main()
+
+
 '''
 useful pandas commands
 top_n = 10
