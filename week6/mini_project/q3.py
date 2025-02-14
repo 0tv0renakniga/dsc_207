@@ -7,7 +7,7 @@ import seaborn as sns
 
 # read 2016.csv
 df = pd.read_csv('2016.csv')
-
+print(df.info())
 # create new col names
 new_col_names = {i:i.lower().replace(' ','_').replace('(','').replace(')','') for i in df.columns}
 
@@ -33,4 +33,20 @@ df.country = df.country.astype(str)
 df.sort_values(by='happiness_score', inplace=True, ascending=False)
 df.happiness_rank = df.happiness_score.rank(method='max', ascending=False).astype(int)
 df.reset_index(drop=True,inplace=True)
-print(df.tail())
+
+'''
+define objectives
+objective 1: How does happiness vary across different regions, and what are the 
+primary factors contributing to these regional differences? Can we identify 
+specific combinations of economic, social, and political factors that explain
+high or low happiness scores in particular regions?
+
+objective 2: To what extent does economic development (GDP per capita) influence
+happiness levels globally, and how does this relationship interact with other factors 
+like health and social support? Are there diminishing returns to economic growth in 
+terms of happiness?
+
+objective 3: How do trust in government and perceived freedom influence happiness levels, 
+and are these factors more important in certain regions or cultural contexts? Is there a 
+link between corruption perception and happiness?
+'''
