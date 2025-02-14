@@ -14,8 +14,8 @@ new_col_names = {i:i.lower().replace(' ','_').replace('(','').replace(')','') fo
 # assign new col names
 df.rename(columns=new_col_names, inplace=True)
 
-# get total observations and fields for dataset
-obs = df.shape[0]
+# get total records and fields for dataset
+rec = df.shape[0]
 fields = df.shape[1]
 
 # get total countries and regions
@@ -28,7 +28,7 @@ num_data = df.select_dtypes(include='number')
 metrics = ", ".join(num_data.columns)
 q1=f'''
 1. High Level View 
-The 2016.csv contains {fields} fields, and {obs} observations.
+The 2016.csv contains {fields} fields, and {rec} records.
 The dataset gives us {unique_country_total} unique countries, that are split across 
 {unique_regions_total} different regions. These unique regions are the following:
 {unique_regions}. We are given the following metrics for each country: {metrics}.
