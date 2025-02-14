@@ -121,7 +121,7 @@ What will you need to clean and/or transform the raw data for analysis?
 (i) Since the data type for our categorical columns is an 'object' dtype we will
 convert these columns to a string data type. 
 
-(ii) We will also need to drop the countries countries with an observation of 0.
+(ii) We will also need to drop the countries with an observation of 0.
 
 (iii) The happiness_rank is an integer value that corresponds to the happiness_score, such that the max 
 happiness is given a happiness_rank of 1, the min happiness is given a happiness_rank of n where n is the 
@@ -133,7 +133,7 @@ What are trends in the dataset and distribution of numerical data?
 (ii) Distribution of numerical data is shown below:
 
 Preliminary Exploration Task 1: Check for null values
-Preliminary Exploration Task 2: Historgram of happiness score for top 3 regions
+Preliminary Exploration Task 2: Histogram of happiness score for top 3 regions
 '''
 print(q2)
 
