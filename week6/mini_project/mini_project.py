@@ -9,16 +9,7 @@ import seaborn as sns
 def rename_columns(df):
     '''
     Renames pandas df column names for 2016.csv
-
-    Input
-    -----
-    df: pd.Dataframe
-
-    Returns
-    -------
-    df: pd.Dataframe
     '''
-
     new_col_names = {i:i.lower().replace(' ','_').replace('(','').replace(')','') for i in df.columns}
 
     return(df.rename(columns=new_col_names))
@@ -27,14 +18,6 @@ def clean_df_values(df):
     '''
     Remove null values and format observations to appropriate data 
     types for2016.csv
-
-    Input
-    -----
-    df: pd.Dataframe
-
-    Returns
-    -------
-    df: pd.Dataframe
     '''
     # find observations with 0
     rows_with_zero = df[(df == 0).any(axis=1)]
@@ -91,20 +74,9 @@ def main():
 
     print(df.dtypes)
     print(df.shape)
-    # find observations with 0
-    rows_with_zero = df[(df == 0).any(axis=1)]
-    # list of countries that will be removed from df
-    country_with_zero = rows_with_zero.country.unique()
-    print(country_with_zero)
-    removed_zeros = df[~df.country.isin(country_with_zero)]
-    print(removed_zeros.shape)
-    '''
-    sns.heatmap(df,annot=True,cmap="YlGnBu")
-    plt.xlabel("columns")
-    plt.ylabel("index")
-    plt.title()
-    plt.show()
-    '''
+    df_no_zeros =clean_df_values(df)
+    print(df.isnull().sum())
+
     
 
 main()
