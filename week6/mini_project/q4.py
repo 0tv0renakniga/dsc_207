@@ -127,13 +127,13 @@ df_comp.reset_index(drop=True, inplace=True)
 
 #only take top 10
 df_comp = df_comp.iloc[:10,:]
-
+print(df_comp.head())
 # Create the bar chart
 plt.figure(figsize=(12, 6))  # Adjust figure size for better readability
-sns.barplot(x='region', y='r2_value', hue='comparison_hs', data=df, palette='Set3')
+sns.barplot(x='region', y='r2_value', hue='comparison_hs', data=df_comp, palette='Set3')
 
-plt.xlabel("R-squared Value")
-plt.ylabel("Region - Comparison")
+plt.ylabel("R-squared Value")
+plt.xlabel("Region - Comparison")
 plt.title("R-squared Values for Happiness Factor Comparisons")
 plt.tight_layout() # Adjust layout to prevent labels from overlapping
 plt.show()
