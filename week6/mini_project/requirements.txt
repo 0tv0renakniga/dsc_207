@@ -70,6 +70,7 @@ ptyprocess==0.7.0
 pure_eval==0.2.3
 pycparser==2.22
 Pygments==2.19.1
+pypalettes==0.1.5
 pyparsing==3.2.1
 python-dateutil==2.9.0.post0
 python-json-logger==3.2.1
@@ -93,6 +94,7 @@ stack-data==0.6.3
 terminado==0.18.1
 threadpoolctl==3.5.0
 tinycss2==1.4.0
+tk==0.1.0
 tornado==6.4.2
 traitlets==5.14.3
 types-python-dateutil==2.9.0.20241206
