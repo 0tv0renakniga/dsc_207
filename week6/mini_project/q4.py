@@ -130,7 +130,7 @@ sns.barplot(x='region', y='r2_value', hue='comparison_hs', data=df_comp,) #palet
 
 plt.ylabel("R-squared Value")
 plt.xlabel("Region - Comparison")
-plt.xticks(rotation=45)
+plt.xticks(rotation=90)
 plt.title("R-squared Values for Happiness Factor Comparisons")
 plt.tight_layout() # Adjust layout to prevent labels from overlapping
 #plt.show()

@@ -5,7 +5,41 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# read 2016.csv
+df = pd.read_csv('2016.csv')
 
+# create new col names
+new_col_names = {i:i.lower().replace(' ','_').replace('(','').replace(')','') for i in df.columns}
+
+# assign new col names
+df.rename(columns=new_col_names, inplace=True)
+
+null_values_col = df.isnull().sum()
+null_values_sum = null_values_col.values.sum()
+print(df.dtypes)
+obs = df.shape[0]
+fields = df.shape[1]
+num_data = df.select_dtypes(include='number')
+num_data_total = num_data.shape[1]
+num_vars = "\n".join(num_data.columns)
+cat_data = df.select_dtypes(include='object')
+cat_data_total = cat_data.shape[1]
+cat_vars = "\n".join(cat_data.columns)
+q1=f'''
+1. High Level View 
+The 2016.csv contains {null_values_sum} null values, {fields} fields, and {obs} observations.
+The dataset contains {cat_data_total} categorical variables and {num_data_total} numerical variables.
+
+The categorical variables are the following:
+{cat_vars}
+
+The numerical variables are the following:
+{num_vars}
+
+
+
+'''
+print(q1)
 def rename_columns(df):
     '''
     Renames pandas df column names for 2016.csv
@@ -79,7 +113,7 @@ def main():
 
     
 
-main()
+#main()
 
 
 '''
