@@ -63,12 +63,80 @@ axes1[1].set_ylabel('Region')
 axes1[1].set_xlabel('Happiness Score')
 axes1[1].set_title('Happiness Score per Region')
 plt.tight_layout()
-plt.show()
+#plt.show()
 #print(df.columns)
 happiness_score_comparison= ['economy_gdp_per_capita', 'family', 'health_life_expectancy', 'freedom','trust_government_corruption', 'generosity', 'dystopia_residual']
 
-for reg in df.region.unique():
-    print(df[df.region==reg].economy_gdp_per_capita.shape)
+def calc_r_sqared(reg,x,y,col):
+    #print(f'r sqared for {reg}: {col}')
+    x = x.to_numpy()
+    y = y.to_numpy()
+    coefficents = np.polyfit(x,y,1)
+    slope = coefficents[0]
+    intercept = coefficents[1]
+    line_of_best_fit = slope*x + intercept
+    y = y.flatten() 
+    line_of_best_fit = line_of_best_fit.flatten()
+    # Compute R² using Scikit-Learn
+    r2_sklearn = r2_score(y, line_of_best_fit)
+    #print(f"R² (Scikit-Learn Calculation): {r2_sklearn}")
+    return(r2_sklearn,len(x))
+
+# check for correlations between happiness score and other numeric values
+comp_dict_global ={}
+for col in happiness_score_comparison:
+    x = df.loc[:,col]
+    y = df.loc[:,'happiness_score']
+    r2, npoints = calc_r_sqared('global',x,y,col)
+    key = "_".join(['global',col,'vs_hs'])
+    comp_dict_global[key]=(r2,npoints)
+# looking globally we don't need to filter for min number of points since observations >=10
+comp_dict_global = {i:j[0] for i,j in comp_dict_global.items()}
+df_global = pd.DataFrame.from_dict(comp_dict_global, orient='index',columns =['r2_value'])
+df_global.index.name ='comparison'
+df_global.sort_values('r2_value',ascending=False,inplace=True)
+df_global['region'] = [i.split('_')[0] for i in df_global.index.values.tolist()]
+df_global['comparison_hs'] = [i.split('_',1)[1].strip('_vs_hs') for i in df_global.index.values.tolist()]
+df_global.reset_index(inplace=True,drop=True)
+
+# check for correlations between happiness score and other numeric values by region
+comp_dict_regional={}
+for col in happiness_score_comparison:
+    for reg in df.region.unique():
+        x = df[df.region==reg].loc[:,col]
+        y = df[df.region==reg].loc[:,'happiness_score']
+        r2, npoints = calc_r_sqared(reg,x,y,col)
+        key = "_".join([reg,col,'vs_hs'])
+        comp_dict_regional[key]=(r2,npoints)
+
+# only can look at regions with enough data(n>=10)
+# note this cuts our observations in half 70 => 35
+
+comp_dict_regional = {i:j[0] for i,j in comp_dict_regional.items() if j[1] >=10}
+df_regional = pd.DataFrame.from_dict(comp_dict_regional, orient='index',columns =['r2_value'])
+df_regional.index.name ='comparison'
+df_regional.sort_values('r2_value',ascending=False,inplace=True)
+df_regional['region'] = [i.split('_')[0] for i in df_regional.index.values.tolist()]
+df_regional['comparison_hs'] = [i.split('_',1)[1].strip('_vs_hs') for i in df_regional.index.values.tolist()]
+df_regional.reset_index(inplace=True,drop=True)
+
+#combine regional and global results for r squared comparison for happiness score
+df_comp = pd.concat([df_global,df_regional])
+df_comp.sort_values('r2_value', ascending=False, inplace=True)
+df_comp.reset_index(drop=True, inplace=True)
+
+#only take top 10
+df_comp = df_comp.iloc[:10,:]
+
+# Create the bar chart
+plt.figure(figsize=(12, 6))  # Adjust figure size for better readability
+sns.barplot(x='region', y='r2_value', hue='comparison_hs', data=df, palette='Set3')
+
+plt.xlabel("R-squared Value")
+plt.ylabel("Region - Comparison")
+plt.title("R-squared Values for Happiness Factor Comparisons")
+plt.tight_layout() # Adjust layout to prevent labels from overlapping
+plt.show()
 '''
 for col in happiness_score_comparison:
     plt.figure()
