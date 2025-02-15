@@ -63,7 +63,7 @@ axes1[1].set_ylabel('Region')
 axes1[1].set_xlabel('Happiness Score')
 axes1[1].set_title('Happiness Score per Region')
 plt.tight_layout()
-plt.show()
+#plt.show()
 
 happiness_score_comparison= ['economy_gdp_per_capita', 'family', 'health_life_expectancy', 'freedom','trust_government_corruption', 'generosity', 'dystopia_residual']
 
@@ -133,7 +133,7 @@ plt.xlabel("Region - Comparison")
 plt.xticks(rotation=45)
 plt.title("R-squared Values for Happiness Factor Comparisons")
 plt.tight_layout() # Adjust layout to prevent labels from overlapping
-plt.show()
+#plt.show()
 
 # now only looking at regions with enough data(n>=10)
 # note this cuts our observations in half 70 => 35
@@ -159,7 +159,7 @@ plt.xlabel("Region - Comparison")
 plt.xticks(rotation=45)
 plt.title("R-squared Values for Happiness Factor Comparisons(Regions with n>=10)")
 plt.tight_layout() # Adjust layout to prevent labels from overlapping
-plt.show()
+#plt.show()
 
 '''
 objective 2: To what extent does economic development (GDP per capita) influence
@@ -185,7 +185,7 @@ axes2[1].set_ylabel('Happiness Score')
 axes2[1].set_xlabel('GDP per Capita')
 axes2[1].set_title('Happiness Score vs GDP per Capita')
 plt.tight_layout()
-plt.show()
+#plt.show()
 
 #(2) gdp vs family and gdp vs health life expectancy
 # Calculate the correlation matrix for GDP and other numeric columns
@@ -197,7 +197,7 @@ heatmap.set_xticklabels(tick_labels, rotation=45)
 heatmap.set_yticklabels(tick_labels, rotation=0)
 plt.title('Correlation Heatmap: GDP and Numeric Metrics')
 plt.tight_layout()
-plt.show()
+#plt.show()
 
 # (3) look at plot from (1) does happiness plateau at a high enough gdp?
 fig3, axes3 = plt.subplots(1,2,figsize=(12, 6), sharey=True)  # Adjust figure size for better readability
@@ -233,7 +233,7 @@ axes3[1].text(0.05, 0.95, f'R² = {r_squared_2:.2f}\n y={slope_2:.2f}x + {interc
 axes3[1].set_xlabel("GDP per Capita")
 axes3[1].set_title("GDP per Capita >=1.45")
 plt.tight_layout() # Adjust layout to prevent labels from overlapping
-plt.show()
+#plt.show()
 
 '''
 objective 3: How do trust in government and perceived freedom influence happiness levels(1), 
@@ -241,7 +241,7 @@ and are these factors more important in certain regions(2)? Is there a
 link between trust and happiness(3)?
 - (1) trust in govt vs. happiness score and freedom vs. happiness (globally)
 - (2) trust in govt vs. happiness score and freedom vs. happiness (region)
-- (3) trust in govt corruption vs. happiness (top 5 and bottom 5)
+- (3) trust in govt corruption vs. happiness similarities between regions?
 '''
 # (1) trust in govt vs. happiness score and freedom vs. happiness (globally)
 # plots for comparison btwn trust in govt and freedom vs happiness score
@@ -277,4 +277,46 @@ axes4[1].text(0.05, 0.95, f'R² = {r_squared_2:.2f}\n y={slope_2:.2f}x + {interc
 axes4[1].set_xlabel("Freedom")
 axes4[1].set_title("How Freedom Influences Happiness Score")
 plt.tight_layout() # Adjust layout to prevent labels from overlapping
+#plt.show()
+
+# (2) trust in govt vs. happiness score and freedom vs. happiness (region)
+# (3) trust in govt corruption vs. happiness similarities between regions?
+# Calculate cor matrix for trust in government and freedom vs. happiness score by region
+# note not all regions have enough data to calculate a correlation, so we will ignore north america and australia and new zealand
+fig_asia, axes_asia = plt.subplots(3,1,figsize=(15,10),sharex=True)
+fig_asia.suptitle('Heatmaps for Asia')
+axes_asia = axes_asia.flatten()
+fig_europe, axes_europe = plt.subplots(2,1,figsize=(15,10),sharex=True)
+fig_europe.suptitle('Heatmaps for Europe')
+axes_europe = axes_europe.flatten()
+fig_africa, axes_africa = plt.subplots(2,1,figsize=(15,10),sharex=True)
+fig_africa.suptitle('Heatmaps for Africa')
+axes_africa = axes_africa.flatten() 
+fig_la, axes_la = plt.subplots(1,1,figsize=(15,10))
+
+regions_axes = [
+    (['Sub-Saharan Africa','Middle East and Northern Africa'], axes_africa),
+    (['Latin America and Caribbean'], [axes_la]),
+    (['Western Europe','Central and Eastern Europe'], axes_europe),
+    (['Southern Asia','Eastern Asia','Southeastern Asia'], axes_asia),
+]
+
+for regs, axes in regions_axes:
+    for i,reg in enumerate(regs):
+        correlation_matrix = df[df.region == reg][['trust_government_corruption', 'happiness_score', 'freedom']].corr()
+        sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', vmin=-1, vmax=1, ax=axes[i])
+        tick_labels = ['Trust in Government', 'Happiness Score', 'Freedom']
+        axes[i].set_xticklabels(tick_labels, rotation=45)
+        axes[i].set_yticklabels(tick_labels, rotation=0)
+        axes[i].set_title(f'Correlation Heatmap: {reg}')
+plt.tight_layout()
 plt.show()
+for reg in df.region.unique():
+    correlation_matrix = df[df.region==reg][['trust_government_corruption', 'happiness_score', 'freedom']].corr()
+    print(f"Region: {reg}")
+    print(correlation_matrix)
+    print(df[df.region==reg].shape[0])
+    print()
+#correlation_matrix = df[['trust_government_corruption', 'happiness_score', 'freedom']].corr()
+#print(correlation_matrix)
+#- (3) trust in govt corruption vs. happiness (top 5 and bottom 5)
