@@ -55,6 +55,7 @@ nbformat==5.10.4
 nest-asyncio==1.6.0
 notebook_shim==0.2.4
 numpy==2.2.1
+ordered-set==4.1.0
 overrides==7.7.0
 packaging==24.2
 pandas==2.2.3
@@ -70,6 +71,7 @@ ptyprocess==0.7.0
 pure_eval==0.2.3
 pycparser==2.22
 Pygments==2.19.1
+PyLaTeX==1.4.2
 pypalettes==0.1.5
 pyparsing==3.2.1
 python-dateutil==2.9.0.post0
