@@ -7,6 +7,9 @@ import seaborn as sns
 from sklearn.metrics import r2_score
 from sklearn.linear_model import LinearRegression
 
+# set figsize for all plots
+matplotlib.rcParams['figure.figsize'] = [10, 7]
+plt.rcParams['figure.dpi'] = 120
 # read 2016.csv
 df = pd.read_csv('2016.csv')
 
@@ -51,7 +54,7 @@ df['sort_col'] = df['region'].map(df['region'].value_counts())
 df = df.sort_values(by='sort_col', ascending=False).drop('sort_col', axis=1)
 
 # plots
-fig1, axes1 = plt.subplots(2,1,figsize=(15,10))
+fig1, axes1 = plt.subplots(2,1)
 # squish axes1 into 1d array
 axes1 = axes1.flatten()
 sns.barplot(y=df.region.value_counts().index,x=df.region.value_counts().values,ax=axes1[0],hue=df.region.value_counts().index)
@@ -62,7 +65,8 @@ sns.boxplot(data=df, x='happiness_score', y='region',ax=axes1[1],hue='region')
 axes1[1].set_ylabel('Region')
 axes1[1].set_xlabel('Happiness Score')
 axes1[1].set_title('Happiness Score per Region')
-plt.tight_layout()
+fig1.tight_layout()
+fig1.savefig('/home/scotty/dsc_207/week6/mini_project/plots/obs_1_1.svg', bbox_inches='tight')
 #plt.show()
 
 happiness_score_comparison= ['economy_gdp_per_capita', 'family', 'health_life_expectancy', 'freedom','trust_government_corruption', 'generosity', 'dystopia_residual']
@@ -125,14 +129,16 @@ df_comp.sort_values('r2_value', ascending=False, inplace=True)
 df_comp.reset_index(drop=True, inplace=True)
 
 # Create the bar chart
-plt.figure(figsize=(12, 6))  # Adjust figure size for better readability
-sns.barplot(x='region', y='r2_value', hue='comparison_hs', data=df_comp,) #palette='Set3')
+obs_1_2, axes_obs_1_2 = plt.subplots(1,1)  # Adjust figure size for better readability
+sns.barplot(x='region', y='r2_value', hue='comparison_hs', data=df_comp, ax=axes_obs_1_2) #palette='Set3')
 
-plt.ylabel("R-squared Value")
-plt.xlabel("Region - Comparison")
-plt.xticks(rotation=90)
-plt.title("R-squared Values for Happiness Factor Comparisons")
-plt.tight_layout() # Adjust layout to prevent labels from overlapping
+axes_obs_1_2.set_ylabel("R-squared Value")
+axes_obs_1_2.set_xlabel("Region - Comparison")
+axes_obs_1_2.tick_params(axis='x', rotation=90)
+#axes_obs_1_2.set_xticklabels(rotation=90)
+axes_obs_1_2.set_title("R-squared Values for Happiness Factor Comparisons")
+obs_1_2.tight_layout() # Adjust layout to prevent labels from overlapping
+obs_1_2.savefig('/home/scotty/dsc_207/week6/mini_project/plots/obs_1_2.svg', bbox_inches='tight')
 #plt.show()
 
 # now only looking at regions with enough data(n>=10)
@@ -152,13 +158,14 @@ df_comp.sort_values('r2_value', ascending=False, inplace=True)
 df_comp.reset_index(drop=True, inplace=True)
 
 # Create the bar chart
-plt.figure(figsize=(12, 6))  # Adjust figure size for better readability
-sns.barplot(x='region', y='r2_value', hue='comparison_hs', data=df_comp,) #palette='Set3')
-plt.ylabel("R-squared Value")
-plt.xlabel("Region - Comparison")
-plt.xticks(rotation=45)
-plt.title("R-squared Values for Happiness Factor Comparisons(Regions with n>=10)")
-plt.tight_layout() # Adjust layout to prevent labels from overlapping
+obs_1_3, axes_obs_1_3 = plt.subplots(1,1)  # Adjust figure size for better readability
+sns.barplot(x='region', y='r2_value', hue='comparison_hs', data=df_comp,ax=axes_obs_1_3) #palette='Set3')
+axes_obs_1_3.set_ylabel("R-squared Value")
+axes_obs_1_3.set_xlabel("Region - Comparison")
+axes_obs_1_3.tick_params(axis='x', rotation=45)
+axes_obs_1_3.set_title("R-squared Values for Happiness Factor Comparisons(Regions with n>=10)")
+obs_1_3.tight_layout() # Adjust layout to prevent labels from overlapping
+obs_1_3.savefig('/home/scotty/dsc_207/week6/mini_project/plots/obs_1_3.svg', bbox_inches='tight')
 #plt.show()
 
 '''
@@ -173,7 +180,7 @@ terms of happiness(3)?
 # (1) gdp vs happiness score
 df_global.replace('ealth_life_expectancy', 'health_life_expectancy', inplace=True)
 # plots
-fig2, axes2 = plt.subplots(2,1,figsize=(15,10))
+fig2, axes2 = plt.subplots(2,1)
 # squish axes2 into 1d array
 axes2 = axes2.flatten()
 sns.barplot(x=df_global.r2_value,y=df_global.region,ax=axes2[0],hue=df_global.comparison_hs)
@@ -184,23 +191,25 @@ sns.scatterplot(data=df, x='economy_gdp_per_capita', y='happiness_score',ax=axes
 axes2[1].set_ylabel('Happiness Score')
 axes2[1].set_xlabel('GDP per Capita')
 axes2[1].set_title('Happiness Score vs GDP per Capita')
-plt.tight_layout()
+fig2.tight_layout()
+fig2.savefig('/home/scotty/dsc_207/week6/mini_project/plots/obs_2_1.svg', bbox_inches='tight')
 #plt.show()
 
 #(2) gdp vs family and gdp vs health life expectancy
 # Calculate the correlation matrix for GDP and other numeric columns
 correlation_matrix = df[['economy_gdp_per_capita', 'happiness_score', 'health_life_expectancy', 'family', 'freedom', 'generosity', 'trust_government_corruption']].corr()
-plt.figure(figsize=(8, 6))
-heatmap = sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
+obs_2_2, axes_obs_2_2 = plt.subplots(1,1)
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', vmin=-1, vmax=1, ax=axes_obs_2_2)
 tick_labels = ['GDP', 'Happiness', 'Health', 'Family', 'Freedom', 'Generosity', 'Trust']
-heatmap.set_xticklabels(tick_labels, rotation=45)
-heatmap.set_yticklabels(tick_labels, rotation=0)
-plt.title('Correlation Heatmap: GDP and Numeric Metrics')
-plt.tight_layout()
+axes_obs_2_2.set_xticklabels(tick_labels, rotation=45)
+axes_obs_2_2.set_yticklabels(tick_labels, rotation=0)
+axes_obs_2_2.set_title('Correlation Heatmap: GDP and Numeric Metrics')
+obs_2_2.tight_layout()
+obs_2_2.savefig('/home/scotty/dsc_207/week6/mini_project/plots/obs_2_2.svg', bbox_inches='tight')
 #plt.show()
 
 # (3) look at plot from (1) does happiness plateau at a high enough gdp?
-fig3, axes3 = plt.subplots(1,2,figsize=(12, 6), sharey=True)  # Adjust figure size for better readability
+fig3, axes3 = plt.subplots(1,2, sharey=True)  # Adjust figure size for better readability
 axes3 = axes3.flatten()
 # Plot GDP per Capita < 1.45 vs. Happiness Score
 sns.scatterplot(x='economy_gdp_per_capita', y='happiness_score', data=df.query('economy_gdp_per_capita < 1.45'),ax=axes3[0],alpha=0.5) 
@@ -232,7 +241,8 @@ axes3[1].text(0.05, 0.95, f'R² = {r_squared_2:.2f}\n y={slope_2:.2f}x + {interc
 #axes3[1].set_ylabel("Happiness Score")
 axes3[1].set_xlabel("GDP per Capita")
 axes3[1].set_title("GDP per Capita >=1.45")
-plt.tight_layout() # Adjust layout to prevent labels from overlapping
+fig3.tight_layout() # Adjust layout to prevent labels from overlapping
+fig3.savefig('/home/scotty/dsc_207/week6/mini_project/plots/obs_2_3.svg', bbox_inches='tight')
 #plt.show()
 
 '''
@@ -245,7 +255,7 @@ link between trust and happiness(3)?
 '''
 # (1) trust in govt vs. happiness score and freedom vs. happiness (globally)
 # plots for comparison btwn trust in govt and freedom vs happiness score
-fig4, axes4 = plt.subplots(1,2,figsize=(12, 6), sharey=True)  # Adjust figure size for better readability
+fig4, axes4 = plt.subplots(1,2, sharey=True)  # Adjust figure size for better readability
 axes4 = axes4.flatten()
 # trust vs. Happiness Score
 sns.scatterplot(x='trust_government_corruption', y='happiness_score', data=df,ax=axes4[0],alpha=0.5) 
@@ -276,23 +286,24 @@ intercept_2 = model_2.intercept_
 axes4[1].text(0.05, 0.95, f'R² = {r_squared_2:.2f}\n y={slope_2:.2f}x + {intercept_2:.2f}', transform=axes4[1].transAxes, fontsize=12,verticalalignment='top')
 axes4[1].set_xlabel("Freedom")
 axes4[1].set_title("How Freedom Influences Happiness Score")
-plt.tight_layout() # Adjust layout to prevent labels from overlapping
+fig4.tight_layout() # Adjust layout to prevent labels from overlapping
+fig4.savefig('/home/scotty/dsc_207/week6/mini_project/plots/obs_3_1.svg', bbox_inches='tight')
 #plt.show()
 
 # (2) trust in govt vs. happiness score and freedom vs. happiness (region)
 # (3) trust in govt corruption vs. happiness similarities between regions?
 # Calculate cor matrix for trust in government and freedom vs. happiness score by region
 # note not all regions have enough data to calculate a correlation, so we will ignore north america and australia and new zealand
-fig_asia, axes_asia = plt.subplots(3,1,figsize=(15,10),sharex=True)
+fig_asia, axes_asia = plt.subplots(3,1,sharex=True)
 fig_asia.suptitle('Heatmaps for Asia')
 axes_asia = axes_asia.flatten()
-fig_europe, axes_europe = plt.subplots(2,1,figsize=(15,10),sharex=True)
+fig_europe, axes_europe = plt.subplots(2,1,sharex=True)
 fig_europe.suptitle('Heatmaps for Europe')
 axes_europe = axes_europe.flatten()
-fig_africa, axes_africa = plt.subplots(2,1,figsize=(15,10),sharex=True)
+fig_africa, axes_africa = plt.subplots(2,1,sharex=True)
 fig_africa.suptitle('Heatmaps for Africa')
 axes_africa = axes_africa.flatten() 
-fig_la, axes_la = plt.subplots(1,1,figsize=(15,10))
+fig_la, axes_la = plt.subplots(1,1)
 
 regions_axes = [
     (['Sub-Saharan Africa','Middle East and Northern Africa'], axes_africa),
@@ -309,14 +320,13 @@ for regs, axes in regions_axes:
         axes[i].set_xticklabels(tick_labels, rotation=45)
         axes[i].set_yticklabels(tick_labels, rotation=0)
         axes[i].set_title(f'Correlation Heatmap: {reg}')
-plt.tight_layout()
+fig_africa.tight_layout()
+fig_africa.savefig('/home/scotty/dsc_207/week6/mini_project/plots/obs_3_2.svg', bbox_inches='tight')
+fig_europe.tight_layout()
+fig_europe.savefig('/home/scotty/dsc_207/week6/mini_project/plots/obs_3_3.svg', bbox_inches='tight')
+fig_asia.tight_layout()
+fig_asia.savefig('/home/scotty/dsc_207/week6/mini_project/plots/obs_3_4.svg', bbox_inches='tight')
+fig_la.tight_layout()
+fig_la.savefig('/home/scotty/dsc_207/week6/mini_project/plots/obs_3_5.svg', bbox_inches='tight')
+
 plt.show()
-for reg in df.region.unique():
-    correlation_matrix = df[df.region==reg][['trust_government_corruption', 'happiness_score', 'freedom']].corr()
-    print(f"Region: {reg}")
-    print(correlation_matrix)
-    print(df[df.region==reg].shape[0])
-    print()
-#correlation_matrix = df[['trust_government_corruption', 'happiness_score', 'freedom']].corr()
-#print(correlation_matrix)
-#- (3) trust in govt corruption vs. happiness (top 5 and bottom 5)
