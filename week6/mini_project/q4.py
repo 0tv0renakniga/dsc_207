@@ -10,6 +10,7 @@ from sklearn.linear_model import LinearRegression
 # set figsize for all plots
 matplotlib.rcParams['figure.figsize'] = [10, 7]
 plt.rcParams['figure.dpi'] = 120
+
 # read 2016.csv
 df = pd.read_csv('2016.csv')
 
@@ -19,12 +20,15 @@ new_col_names = {i:i.lower().replace(' ','_').replace('(','').replace(')','') fo
 # assign new col names
 df.rename(columns=new_col_names, inplace=True)
 
-# remove countries that have a zero for an observation
+'''
+remove countries that have a zero for an observation
+list of countries that will be removed from df are:'Somalia' 
+'Bosnia and Herzegovina' 'Greece' 'Sierra Leone' 'Sudan' 'Togo'
+'''
+# return a df with observations that contain a 0
 rows_with_zero = df[(df == 0).any(axis=1)]
-'''
-list of countries that will be removed from df 'Somalia' 'Bosnia and Herzegovina' 'Greece' 
-'Sierra Leone' 'Sudan' 'Togo'
-'''
+
+# list of countries that will be removed from df
 country_with_zero = rows_with_zero.country.unique()
 
 # df with observations that contain a 0 are removed

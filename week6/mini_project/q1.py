@@ -36,4 +36,28 @@ This data set could be useful for looking at how government corruption or freedo
 by region and country. It could also be useful for determining which of the metrics given
 is most influential on happiness score.
 '''
-print(q1)
+import io
+
+def info_to_dataframe(df):
+    buf = io.StringIO()
+    df.info(buf=buf)
+    info_str = buf.getvalue().split('\n')
+    
+    data = []
+    for line in info_str:#[5:-3]:  # Skip header and footer lines
+        #print([i for i in line.split(' ')[1:] if len(i) > 0])
+        parts = line.split(maxsplit=2)
+        data.append(parts)
+    data = data[5:-3]
+    for i in data:
+        i[-1] = i[-1].strip()
+        non_null = " ".join(i[-1].split(' ')[:2])
+        d_type = i[-1].split(' ')[-1]
+        clean = [i[1], non_null, d_type]
+        print(clean)
+
+    info_df = pd.DataFrame(data, columns=['col', 'Non-Null Count', 'Dtype'])
+    return info_df
+
+null_table = info_to_dataframe(df)
+#print(null_table.col.values)

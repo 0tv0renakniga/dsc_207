@@ -45,8 +45,11 @@ country_metric_str = '\n'.join(country_metric_list)
 # get trends for numeric values
 def get_trends(df):
     trends=[]
+    report = [['column_name','mean','median','standard_deviation']]
     for col in df.columns:
         trends.append(f"{col.upper()}\nmean:{df[col].mean():5.3g}\tmedian:{df[col].median():5.3g}\tstandard deviation: {df[col].std():5.3g}\n")
+        report.append((f"{col},{df[col].mean():5.3g},{df[col].median():5.3g},{df[col].std():5.3g}").split(','))
+        print(report)
     return("\n".join(trends))
 # not intrested in trend for happiness rank so drop it from the numeric data    
 num_data.set_index('happiness_rank', drop=True, inplace=True)
