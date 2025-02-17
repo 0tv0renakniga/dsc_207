@@ -73,7 +73,7 @@ fig1.tight_layout()
 fig1.savefig('/home/scotty/dsc_207/week6/mini_project/plots/obs_1_1.svg', bbox_inches='tight')
 #plt.show()
 
-happiness_score_comparison= ['economy_gdp_per_capita', 'family', 'health_life_expectancy', 'freedom','trust_government_corruption', 'generosity', 'dystopia_residual']
+happiness_score_comparison = ['economy_gdp_per_capita', 'family', 'health_life_expectancy', 'freedom','trust_government_corruption', 'generosity', 'dystopia_residual']
 
 def calc_r_sqared(reg,x,y,col):
     x = x.to_numpy()

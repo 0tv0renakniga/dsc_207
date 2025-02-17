@@ -14,19 +14,23 @@ new_col_names = {i:i.lower().replace(' ','_').replace('(','').replace(')','') fo
 # assign new col names
 df.rename(columns=new_col_names, inplace=True)
 
+# check for null values
 null_values_col = df.isnull().sum()
 null_values_sum = null_values_col.values.sum()
-print(df.dtypes)
+# total observations
 obs = df.shape[0]
+# total fields
 fields = df.shape[1]
+# get all numerical data
 num_data = df.select_dtypes(include='number')
 num_data_total = num_data.shape[1]
 num_vars = "\n".join(num_data.columns)
+# get all categorical data
 cat_data = df.select_dtypes(include='object')
 cat_data_total = cat_data.shape[1]
 cat_vars = "\n".join(cat_data.columns)
-q1=f'''
-1. High Level View 
+q2=f'''
+2. Preliminary Exploration
 The 2016.csv contains {null_values_sum} null values, {fields} fields, and {obs} observations.
 The dataset contains {cat_data_total} categorical variables and {num_data_total} numerical variables.
 
@@ -39,7 +43,7 @@ The numerical variables are the following:
 
 
 '''
-print(q1)
+print(q2)
 def rename_columns(df):
     '''
     Renames pandas df column names for 2016.csv
